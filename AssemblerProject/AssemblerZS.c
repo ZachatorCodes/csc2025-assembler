@@ -363,7 +363,7 @@ void runMachineCode()
 		fullCommand = memory[address];  //the next command
 		address++;
 		//debugging, comment out when you don't need it
-		//printMemoryDump();
+		printMemoryDump();
 	}
 }
 
