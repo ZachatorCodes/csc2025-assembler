@@ -153,8 +153,7 @@ return value: none
 void assembler()
 {
 	address = 0;
-	FILE* fin;		// File pointer for reading in the assembly code.
-	//recommend changeing so you can type in file name
+	FILE* fin;   // File pointer for reading in the assembly code.			
 	fopen_s(&fin, ASM_FILE_NAME, "r");
 	if (fin == NULL)
 	{
