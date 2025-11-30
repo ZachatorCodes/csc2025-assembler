@@ -20,7 +20,7 @@
 #include <string.h>
 #include <ctype.h>
 
-char ASM_FILE_NAME[] = "Assembler3ZS.asm"; // name of linked assembly file
+char ASM_FILE_NAME[] = "Assembler5ZS.asm"; // name of linked assembly file
 
 #define MAX 150			// strlen of simulators memory can be changed
 #define COL 7			// number of columns for output
@@ -143,7 +143,18 @@ void convertToMachineCode(FILE* fin)
 
 	splitCommand(line, part1, part2, part3);
 
-	if (part1[0] == 'h')  //halt
+	if (line[0] == '\n' || line[0] == '\0') // comment or blank line
+	{
+		address++;
+		return;
+	}
+	else if (isdigit(line[0]) || line[0] == '-')
+	{
+		memory[address] = convertToNumber(line, 0); // puts the constant value into the next memory address
+		address++;
+		return;
+	}
+	else if (part1[0] == 'h')  //halt
 	{
 		memory[address] = HALT;
 		address++;
