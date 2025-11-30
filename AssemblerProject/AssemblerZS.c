@@ -77,72 +77,6 @@ void printMemoryDumpHex(); // prints memory in hexedecimal
 void putValue(int operand, int value); // puts a value into the correct register based on the operand
 Memory getValue(Memory operand); // gets a value from the correct register based on the operand
 
-/********************   getValue   ***********************
-Function to take in an operand, and return one of the memory registers.
-parameters: Memory operand - the operand to get the value from
-return value: Returns register value, contant value, or memory value based on operand
------------------------------------------------------------*/
-Memory getValue(Memory operand)
-{
-	int value;
-	switch (operand)
-	{
-	case AXREG:
-		return regis.AX;
-		break;
-	case BXREG:
-		return regis.BX;
-		break;
-	case CXREG:
-		return regis.CX;
-		break;
-	case DXREG:
-		return regis.DX;
-		break;
-	case CONSTANT:
-		value = memory[address];
-		address++;
-		return value;
-	case ADDRESS:
-		value = memory[address];
-		address++;
-		return memory[value];
-	}
-	return -1; // error case
-}
-
-/********************   putValue   ***********************
-Function to take in an operand and a value, and store the value in the correct register based on the operand.
-parameters: The numberical value of the operand, and the int value to store
-return value: None
------------------------------------------------------------*/
-void putValue(int operand, int value)
-{
-	if (operand == AXREG)
-	{
-		regis.AX = value;
-	}
-	else if (operand == BXREG)
-	{
-		regis.BX = value;
-	}
-	else if (operand == CXREG) {
-		regis.CX = value;
-	}
-	else if (operand == DXREG) {
-		regis.DX = value;
-	}
-	else if (operand == ADDRESS) {
-		int addr;
-		addr = memory[address];
-		address++;
-		memory[addr] = value;
-	}
-	else {
-		printf("Error, invalid operand"); // error case
-	}
-}
-
 int main()
 {
 	assembler();
@@ -256,6 +190,58 @@ void convertToMachineCode(FILE* fin)
 	printMemoryDump();
 }
 
+/********************   runMachineCode   ***********************
+Executes the machine code that is in memory, the virtual machine
+
+Actually executes the machine code based on the commands and operands stored in memory
+and interpreted by the convertToMachineCode function. Uses bit masking to get the parts of each command.
+
+parameters: none
+return value: none
+-----------------------------------------------------------*/
+void runMachineCode()
+{
+	Memory mask1 = 224;   //111 00 000
+	Memory mask2 = 24;    //000 11 000
+	Memory mask3 = 7;	  //000 00 111
+	Memory part1, part2, part3; //command, operand1, 
+	int value1, value2;   //the actual values in the registers or constants
+
+	address = 0;
+	Memory fullCommand = memory[address];
+	address++;
+	while (fullCommand != HALT)
+	{
+		part1 = fullCommand & mask1;
+		part2 = (fullCommand & mask2) >> 3;
+		part3 = fullCommand & mask3;
+		if (fullCommand == PUT) {
+			printf("\t\tAX is: %d\n", regis.AX);
+		}
+		else if (part1 == MOVREG)
+		{
+			value1 = getValue(part3);
+			putValue(part2, value1);
+		}
+		else if (part1 == MOVMEM) {
+			value1 = getValue(part2);
+			putValue(ADDRESS, value1);
+		}
+		else if (part1 == ADD) {
+			// get the values from part2 and part3
+			value1 = getValue(part2);
+			value2 = getValue(part3);
+			// add the values together
+			value1 = value1 + value2;
+			// put the value into the register specified by part2
+			putValue(part2, value1);
+		}
+		fullCommand = memory[address];  //the next command
+		address++;
+		//debugging, comment out when you don't need it
+		printMemoryDump();
+	}
+}
 
 /********************   splitCommand   ***********************
 splits a line of asm into it's parts
@@ -320,59 +306,6 @@ void splitCommand(char line[], char part1[], char part2[], char part3[])
 		}
 		part3[index2] = '\0'; // add the string stopper
 		printf("\nCommand = %s %s %s", part1, part2, part3);
-	}
-}
-
-/********************   runMachineCode   ***********************
-Executes the machine code that is in memory, the virtual machine
-
-Actually executes the machine code based on the commands and operands stored in memory
-and interpreted by the convertToMachineCode function. Uses bit masking to get the parts of each command.
-
-parameters: none
-return value: none
------------------------------------------------------------*/
-void runMachineCode()
-{
-	Memory mask1 = 224;   //111 00 000
-	Memory mask2 = 24;    //000 11 000
-	Memory mask3 = 7;	  //000 00 111
-	Memory part1, part2, part3; //command, operand1, 
-	int value1, value2;   //the actual values in the registers or constants
-
-	address = 0;
-	Memory fullCommand = memory[address];
-	address++;
-	while (fullCommand != HALT)
-	{
-		part1 = fullCommand & mask1;
-		part2 = (fullCommand & mask2) >> 3;
-		part3 = fullCommand & mask3;
-		if (fullCommand == PUT) {
-			printf("\t\tAX is: %d\n", regis.AX);
-		}
-		else if (part1 == MOVREG)
-		{
-			value1 = getValue(part3);
-			putValue(part2, value1);
-		}
-		else if (part1 == MOVMEM) {
-			value1 = getValue(part2);
-			putValue(ADDRESS, value1);
-		}
-		else if (part1 == ADD) {
-			// get the values from part2 and part3
-			value1 = getValue(part2);
-			value2 = getValue(part3);
-			// add the values together
-			value1 = value1 + value2;
-			// put the value into the register specified by part2
-			putValue(part2, value1);
-		}
-		fullCommand = memory[address];  //the next command
-		address++;
-		//debugging, comment out when you don't need it
-		printMemoryDump();
 	}
 }
 
@@ -533,6 +466,72 @@ void changeToLowerCase(char line[])
 	{
 		line[index] = tolower(line[index]);
 		index++;
+	}
+}
+
+/********************   getValue   ***********************
+Function to take in an operand, and return one of the memory registers.
+parameters: Memory operand - the operand to get the value from
+return value: Returns register value, contant value, or memory value based on operand
+-----------------------------------------------------------*/
+Memory getValue(Memory operand)
+{
+	int value;
+	switch (operand)
+	{
+	case AXREG:
+		return regis.AX;
+		break;
+	case BXREG:
+		return regis.BX;
+		break;
+	case CXREG:
+		return regis.CX;
+		break;
+	case DXREG:
+		return regis.DX;
+		break;
+	case CONSTANT:
+		value = memory[address];
+		address++;
+		return value;
+	case ADDRESS:
+		value = memory[address];
+		address++;
+		return memory[value];
+	}
+	return -1; // error case
+}
+
+/********************   putValue   ***********************
+Function to take in an operand and a value, and store the value in the correct register based on the operand.
+parameters: The numberical value of the operand, and the int value to store
+return value: None
+-----------------------------------------------------------*/
+void putValue(int operand, int value)
+{
+	if (operand == AXREG)
+	{
+		regis.AX = value;
+	}
+	else if (operand == BXREG)
+	{
+		regis.BX = value;
+	}
+	else if (operand == CXREG) {
+		regis.CX = value;
+	}
+	else if (operand == DXREG) {
+		regis.DX = value;
+	}
+	else if (operand == ADDRESS) {
+		int addr;
+		addr = memory[address];
+		address++;
+		memory[addr] = value;
+	}
+	else {
+		printf("Error, invalid operand"); // error case
 	}
 }
 
