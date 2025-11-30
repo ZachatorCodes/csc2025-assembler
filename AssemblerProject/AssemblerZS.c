@@ -20,7 +20,7 @@
 #include <string.h>
 #include <ctype.h>
 
-char ASM_FILE_NAME[] = "Assembler5ZS.asm"; // name of linked assembly file
+char ASM_FILE_NAME[ ] = "Assembler5ZS.asm"; // name of linked assembly file
 
 #define MAX 150			// strlen of simulators memory can be changed
 #define COL 7			// number of columns for output
@@ -69,31 +69,31 @@ struct Registers
 
 // global variables
 typedef short int Memory;    // sets the type of memory to short int 
-Memory memory[MAX] = { 0 };  // global variable the memory of the virtual machine
+Memory memory[ MAX ] = { 0 };  // global variable the memory of the virtual machine
 Memory address;              // global variable the current address in the virtual machine
 
 // function prototypes
-void runMachineCode(); // executes the machine code
-void splitCommand(char line[], char part1[], char part2[], char part3[]); // splits line of asm into it's three parts
-void convertToMachineCode(FILE* fin); // converts a single line of ASM to machine code
-void assembler(); // converts the entire ASM file and stores it in memory
-void printMemoryDump(); // prints memory with commands represented as integes
+void runMachineCode( ); // executes the machine code
+void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] ); // splits line of asm into it's three parts
+void convertToMachineCode( FILE* fin ); // converts a single line of ASM to machine code
+void assembler( ); // converts the entire ASM file and stores it in memory
+void printMemoryDump( ); // prints memory with commands represented as integes
 
 // helper functions prototypes 
-int convertToNumber(char line[], int start); // converts a sub-string to an int
-int whichOperand(char operand[]); // returns the number of the letter registar
-void changeToLowerCase(char line[]); // changes each character to lower case
-void printMemoryDumpHex(); // prints memory in hexedecimal
-void putValue(int operand, int value); // puts a value into the correct register based on the operand
-Memory getValue(Memory operand); // gets a value from the correct register based on the operand
+int convertToNumber( char line[ ], int start ); // converts a sub-string to an int
+int whichOperand( char operand[ ] ); // returns the number of the letter registar
+void changeToLowerCase( char line[ ] ); // changes each character to lower case
+void printMemoryDumpHex( ); // prints memory in hexedecimal
+void putValue( int operand, int value ); // puts a value into the correct register based on the operand
+Memory getValue( Memory operand ); // gets a value from the correct register based on the operand
 
-int main()
+int main( )
 {
-	assembler();
-	runMachineCode();
-	printMemoryDump(); // displays memory with final values
-	printf("\n");
-	system("pause");
+	assembler( );
+	runMachineCode( );
+	printMemoryDump( ); // displays memory with final values
+	printf( "\n" );
+	system( "pause" );
 	return 0;
 }
 
@@ -103,20 +103,20 @@ commands into the memory.
 parameters: none
 return value: none
 -----------------------------------------------------------*/
-void assembler()
+void assembler( )
 {
 	address = 0;
 	FILE* fin;   // File pointer for reading in the assembly code.			
-	fopen_s(&fin, ASM_FILE_NAME, "r");
-	if (fin == NULL)
+	fopen_s( &fin, ASM_FILE_NAME, "r" );
+	if ( fin == NULL )
 	{
-		printf("Error, file didn't open\n\nExiting program...\n\n");
-		system("pause");
-		exit(1);
+		printf( "Error, file didn't open\n\nExiting program...\n\n" );
+		system( "pause" );
+		exit( 1 );
 	}
-	for (int i = 0; i < MAX && !feof(fin); i++)
+	for ( int i = 0; i < MAX && !feof( fin ); i++ )
 	{
-		convertToMachineCode(fin);
+		convertToMachineCode( fin );
 	}
 }
 
@@ -129,75 +129,86 @@ into its parts then converts it to machine code based on the command and operand
 parameters: FILE* fin - pointer to the asm file
 return value: none
 ---------------------------------------------------------------------*/
-void convertToMachineCode(FILE* fin)
+void convertToMachineCode( FILE* fin )
 {
-	char line[LINE_SIZE];		// full command
-	char part1[LINE_SIZE];	// the asm commmand
-	char part2[LINE_SIZE] = "";// the two operands, could be empty
-	char part3[LINE_SIZE] = "";
+	char line[ LINE_SIZE ];		// full command
+	char part1[ LINE_SIZE ];	// the asm commmand
+	char part2[ LINE_SIZE ] = "";// the two operands, could be empty
+	char part3[ LINE_SIZE ] = "";
 	int machineCode = 0;	// One line of converted asm code from the file
 	Memory operand3 = 0;  // the second operand, could be empty
 
-	fgets(line, LINE_SIZE, fin);		// Takes one line from the asm file
-	changeToLowerCase(line);
+	fgets( line, LINE_SIZE, fin );		// Takes one line from the asm file
+	changeToLowerCase( line );
 
-	splitCommand(line, part1, part2, part3);
+	splitCommand( line, part1, part2, part3 );
 
-	if (line[0] == '\n' || line[0] == '\0') // comment or blank line
+	// Empty Lines
+	if ( line[ 0 ] == '\n' || line[ 0 ] == '\0' ) // comment or blank line
 	{
 		address++;
-		printf("BLANK LINE\n");
+		printf( "BLANK LINE\n" );
 		return;
 	}
-	else if (isdigit(line[0]) || line[0] == '-')
+	else if ( isdigit( line[ 0 ] ) || line[ 0 ] == '-' )
 	{
-		memory[address] = convertToNumber(line, 0); // puts the constant value into the next memory address
-		address++;
-		return;
-	}
-	else if (part1[0] == 'h')  //halt
-	{
-		memory[address] = HALT;
+		memory[ address ] = convertToNumber( line, 0 ); // puts the constant value into the next memory address
 		address++;
 		return;
 	}
-	else if (part1[0] == 'p') {
+	// One Part Commands
+	else if ( part1[ 0 ] == 'h' )  //halt
+	{
+		memory[ address ] = HALT;
+		address++;
+		return;
+	}
+	else if ( part1[ 0 ] == 'p' )
+	{
 		machineCode = PUT;
-		memory[address] = machineCode;
+		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if (part1[0] == 'm')  //move into a register
+	// Three Part Commands
+	else if ( part1[ 0 ] == 'm' )  //move into a register
 	{
-		if (part2[0] == '[') {
+		if ( part2[ 0 ] == '[' )
+		{
 			machineCode = MOVMEM;
-			char temp[LINE_SIZE];
-			strcpy(temp, part2); // copies part2 without the '['
-			strcpy(part2, part3); // copies part2 without the '['
-			strcpy(part3, temp); // copies part2 without the '['
+			char temp[ LINE_SIZE ];
+			strcpy( temp, part2 ); // copies part2 without the '['
+			strcpy( part2, part3 ); // copies part2 without the '['
+			strcpy( part3, temp ); // copies part2 without the '['
 		}
-		else {
+		else
+		{
 			machineCode = MOVREG;
 		}
 	}
-	else if (part1[0] == 'a')  //move into a register
+	else if ( part1[ 0 ] == 'a' )  //move into a register
 	{
 		machineCode = ADD;
 	}
+	else if ( part1[ 0 ] == 'c' )
+	{
+		machineCode = CMP;
+	}
 
-	operand3 = whichOperand(part3);
-	machineCode = machineCode | (whichOperand(part2) << 3); // bitshifts 3 to the left
+	operand3 = whichOperand( part3 );
+	machineCode = machineCode | ( whichOperand( part2 ) << 3 ); // bitshifts 3 to the left
 	machineCode = machineCode | operand3;
-	memory[address] = machineCode;
+	memory[ address ] = machineCode;
 	address++;
 
-	if (operand3 == ADDRESS || operand3 == CONSTANT) {
-		memory[address] = convertToNumber(part3, 0); // puts the constant value into the next memory address
+	if ( operand3 == ADDRESS || operand3 == CONSTANT )
+	{
+		memory[ address ] = convertToNumber( part3, 0 ); // puts the constant value into the next memory address
 		address++;
 	}
 
-	printf("\n");
-	printMemoryDump();
+	printf( "\n" );
+	printMemoryDump( );
 }
 
 /********************   runMachineCode   ***********************
@@ -209,7 +220,7 @@ and interpreted by the convertToMachineCode function. Uses bit masking to get th
 parameters: none
 return value: none
 -----------------------------------------------------------*/
-void runMachineCode()
+void runMachineCode( )
 {
 	Memory mask1 = 224;   //111 00 000
 	Memory mask2 = 24;    //000 11 000
@@ -218,38 +229,66 @@ void runMachineCode()
 	int value1, value2;   //the actual values in the registers or constants
 
 	address = 0;
-	Memory fullCommand = memory[address];
+	Memory fullCommand = memory[ address ];
 	address++;
-	while (fullCommand != HALT)
+	while ( fullCommand != HALT )
 	{
 		part1 = fullCommand & mask1;
-		part2 = (fullCommand & mask2) >> 3;
+		part2 = ( fullCommand & mask2 ) >> 3;
 		part3 = fullCommand & mask3;
-		if (fullCommand == PUT) {
-			printf("AX is: %d\n\n", regis.AX);
-		}
-		else if (part1 == MOVREG)
+
+		// One Part Commands
+		if ( fullCommand == PUT )
 		{
-			value1 = getValue(part3);
-			putValue(part2, value1);
+			printf( "AX is: %d\n\n", regis.AX );
 		}
-		else if (part1 == MOVMEM) {
-			value1 = getValue(part2);
-			putValue(ADDRESS, value1);
+
+		// Two Part Commands (Jumps)
+
+
+		// Three Part Commands
+		else if ( part1 == MOVREG )
+		{
+			value1 = getValue( part3 );
+			putValue( part2, value1 );
 		}
-		else if (part1 == ADD) {
+		else if ( part1 == MOVMEM )
+		{
+			value1 = getValue( part2 );
+			putValue( ADDRESS, value1 );
+		}
+		else if ( part1 == ADD )
+		{
 			// get the values from part2 and part3
-			value1 = getValue(part2);
-			value2 = getValue(part3);
+			value1 = getValue( part2 );
+			value2 = getValue( part3 );
 			// add the values together
 			value1 = value1 + value2;
 			// put the value into the register specified by part2
-			putValue(part2, value1);
+			putValue( part2, value1 );
 		}
-		fullCommand = memory[address];  //the next command
+		else if ( part1 == CMP )
+		{
+			value1 = getValue( part2 );
+			value2 = getValue( part3 );
+			if ( value1 == value2 )
+			{
+				regis.flag = 0;
+			}
+			else if ( value1 > value2 )
+			{
+				regis.flag = 1;
+			}
+			else
+			{
+				regis.flag = -1;
+			}
+		}
+
+		fullCommand = memory[ address ];  //the next command
 		address++;
 		//debugging, comment out when you don't need it
-		printMemoryDump();
+		printMemoryDump( );
 	}
 }
 
@@ -267,55 +306,59 @@ parameters: char line[] - the full line of assembly code
 			char part3[] - the second operand
 return values: nothing
 -----------------------------------------------------------*/
-void splitCommand(char line[], char part1[], char part2[], char part3[])
+void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] )
 {
 	int index = 0;           // the character location in the string line
 	int index2 = 0;          // character location in new string ie the parts
 
 	//moves the first set of characters from line into instruction
-	while (line[index] != ' ' && line[index] != '\0' && line[index] != '\n')
+	while ( line[ index ] != ' ' && line[ index ] != '\0' && line[ index ] != '\n' )
 	{
-		part1[index2] = line[index];
+		part1[ index2 ] = line[ index ];
 		index++;
 		index2++;
 	}
-	part1[index2] = '\0';				// add the string stopper
+	part1[ index2 ] = '\0';				// add the string stopper
 	index2 = 0;
 
-	if (line[index] == '\0')  //no space, command has no other parts
+	if ( line[ index ] == '\0' )  //no space, command has no other parts
 	{
-		strcpy(part2, "\0");
-		strcpy(part3, "\0");
+		strcpy( part2, "\0" );
+		strcpy( part3, "\0" );
 	}
 	else
 	{
-		if (line[index] != '/0' && index + 1 < LINE_SIZE) {
-			if (line[index] == ' ' && line[index + 1] != ' ' && line[index + 1] != "\n") {
+		if ( line[ index ] != '/0' && index + 1 < LINE_SIZE )
+		{
+			if ( line[ index ] == ' ' && line[ index + 1 ] != ' ' && line[ index + 1 ] != "\n" )
+			{
 				index++;  //skips the space
-				while ((line[index] != ' ' && line[index] != '\0' && line[index] != '\n') && index < LINE_SIZE && index2 < LINE_SIZE - 1)
+				while ( ( line[ index ] != ' ' && line[ index ] != '\0' && line[ index ] != '\n' ) && index < LINE_SIZE && index2 < LINE_SIZE - 1 )
 				{
-					part2[index2] = line[index];
+					part2[ index2 ] = line[ index ];
 					index++;
 					index2++;
 				}
 			}
 		}
-		part2[index2] = '\0'; // add the string stopper
+		part2[ index2 ] = '\0'; // add the string stopper
 		index2 = 0;
 
-		if (line[index] != '/0' && index + 1 < LINE_SIZE) {
-			if (line[index] == ' ' && line[index + 1] != ' ' && line[index + 1] != "\n") {
+		if ( line[ index ] != '/0' && index + 1 < LINE_SIZE )
+		{
+			if ( line[ index ] == ' ' && line[ index + 1 ] != ' ' && line[ index + 1 ] != "\n" )
+			{
 				index++;  //skips the space
-				while ((line[index] != ' ' && line[index] != '\0' && line[index] != '\n') && index < LINE_SIZE && index2 < LINE_SIZE - 1)
+				while ( ( line[ index ] != ' ' && line[ index ] != '\0' && line[ index ] != '\n' ) && index < LINE_SIZE && index2 < LINE_SIZE - 1 )
 				{
-					part3[index2] = line[index];
+					part3[ index2 ] = line[ index ];
 					index++;
 					index2++;
 				}
 			}
 		}
-		part3[index2] = '\0'; // add the string stopper
-		printf("\nCommand = %s %s %s", part1, part2, part3);
+		part3[ index2 ] = '\0'; // add the string stopper
+		printf( "\nCommand = %s %s %s", part1, part2, part3 );
 	}
 }
 
@@ -330,30 +373,30 @@ COL is the number of columns that are to be displayed (Vicki used 7)
 parameters: none
 return value: none
 ---------------------------------------------------------------------------------*/
-void printMemoryDump()
+void printMemoryDump( )
 {
 	int numRows = MAX / COL + 1;	//number of rows that will print
 	int carryOver = MAX % COL;		//number of columns on the bottom row
 	int location;   //the current location being called
-	for (int row = 0; row < numRows; row++)
+	for ( int row = 0; row < numRows; row++ )
 	{
 		location = row;
-		for (int column = 0; location < MAX && column < COL; column++)
+		for ( int column = 0; location < MAX && column < COL; column++ )
 		{
-			if (!(numRows - 1 == row && carryOver - 1 < column))
+			if ( !( numRows - 1 == row && carryOver - 1 < column ) )
 			{
-				printf("%5d.%5d", location, memory[location]);
-				location += (numRows - (carryOver - 1 < column));
+				printf( "%5d.%5d", location, memory[ location ] );
+				location += ( numRows - ( carryOver - 1 < column ) );
 			}
 		}
-		printf("\n");
+		printf( "\n" );
 	}
-	printf("\nAX:%d\t", regis.AX);
-	printf("BX:%d\t", regis.BX);
-	printf("CX:%d\t", regis.CX);
-	printf("DX:%d\n\n", regis.DX);
-	printf("Address: %d\n", address);
-	printf("Flag: %d\n\n", regis.flag);
+	printf( "\nAX:%d\t", regis.AX );
+	printf( "BX:%d\t", regis.BX );
+	printf( "CX:%d\t", regis.CX );
+	printf( "DX:%d\n\n", regis.DX );
+	printf( "Address: %d\n", address );
+	printf( "Flag: %d\n\n", regis.flag );
 }
 
 
@@ -362,30 +405,30 @@ Prints memory in
 *parameters: none
 *return value: none
 ----------------------------------------------------------------*/
-void printMemoryDumpHex()
+void printMemoryDumpHex( )
 {
 	int numRows = MAX / COL + 1;	//number of rows that will print
 	int carryOver = MAX % COL;		//number of columns on the bottom row
 	int location;   //the current location being called
-	for (int row = 0; row < numRows; row++)
+	for ( int row = 0; row < numRows; row++ )
 	{
 		location = row;
-		for (int column = 0; location < MAX && column < COL; column++)
+		for ( int column = 0; location < MAX && column < COL; column++ )
 		{
-			if (!(numRows - 1 == row && carryOver - 1 < column))
+			if ( !( numRows - 1 == row && carryOver - 1 < column ) )
 			{
-				printf("%5d.%3x", location, memory[location]);
-				location += (numRows - (carryOver - 1 < column));
+				printf( "%5d.%3x", location, memory[ location ] );
+				location += ( numRows - ( carryOver - 1 < column ) );
 			}
 		}
-		printf("\n");
+		printf( "\n" );
 	}
-	printf("\nAX:%d\t", regis.AX);
-	printf("BX:%d\t", regis.BX);
-	printf("CX:%d\t", regis.CX);
-	printf("DX:%d\n", regis.DX);
-	printf("Address: %d\n", address);
-	printf("Flag: %d\n\n", regis.flag);
+	printf( "\nAX:%d\t", regis.AX );
+	printf( "BX:%d\t", regis.BX );
+	printf( "CX:%d\t", regis.CX );
+	printf( "DX:%d\n", regis.DX );
+	printf( "Address: %d\n", address );
+	printf( "Flag: %d\n\n", regis.flag );
 }
 
 /*****************************************************************************/
@@ -397,30 +440,30 @@ void printMemoryDumpHex()
 /* letter - the first letter of the operand, register, number, [
 /* return value - the number of the register
 /*--------------------------------------------------------------*/
-int whichOperand(char operand[])
+int whichOperand( char operand[ ] )
 {
-	char letter = operand[0];
-	if (letter == 'a')
+	char letter = operand[ 0 ];
+	if ( letter == 'a' )
 	{
 		return AXREG;
 	}
-	else if (letter == 'b')
+	else if ( letter == 'b' )
 	{
 		return BXREG;
 	}
-	else if (letter == 'c')
+	else if ( letter == 'c' )
 	{
 		return CXREG;
 	}
-	else if (letter == 'd')
+	else if ( letter == 'd' )
 	{
 		return DXREG;
 	}
-	else if (letter == '[')
+	else if ( letter == '[' )
 	{
 		return ADDRESS;
 	}
-	else if (isdigit(letter))
+	else if ( isdigit( letter ) )
 	{
 		return CONSTANT;
 	}
@@ -432,31 +475,31 @@ int whichOperand(char operand[])
 /*  line - is the string of assembly code to convert
 /*  start - is the location where the line is being converted,
 /*--------------------------------------------------------------*/
-int convertToNumber(char line[], int start)
+int convertToNumber( char line[ ], int start )
 {
 	int value; // is the integer value of the digits in the code
-	char number[16];  //just the digits
+	char number[ 16 ];  //just the digits
 	int negative = 0;  //negative or positive number
 
 	int i = 0;
-	while (line[start] == '[' || line[start] == ' ')
+	while ( line[ start ] == '[' || line[ start ] == ' ' )
 	{
 		start++;
 	}
-	if (line[start] == '-')
+	if ( line[ start ] == '-' )
 	{
 		start++;
 		negative = 1;
 	}
-	while (i < 16 && isdigit(line[start]))
+	while ( i < 16 && isdigit( line[ start ] ) )
 	{
-		number[i] = line[start];
+		number[ i ] = line[ start ];
 		i++;
 		start++;
 	}
-	number[i] = '\0';
-	value = atoi(number);
-	if (negative == 1)
+	number[ i ] = '\0';
+	value = atoi( number );
+	if ( negative == 1 )
 	{
 		value = -value;
 	}
@@ -469,12 +512,12 @@ Changes each character to lower case
 * line - the string that was entered the line is completely changed to lower case
 * return value: none
 ----------------------------------------------------------------*/
-void changeToLowerCase(char line[])
+void changeToLowerCase( char line[ ] )
 {
 	int index = 0;
-	while (index < strlen(line))
+	while ( index < strlen( line ) )
 	{
-		line[index] = tolower(line[index]);
+		line[ index ] = tolower( line[ index ] );
 		index++;
 	}
 }
@@ -484,31 +527,31 @@ Function to take in an operand, and return one of the memory registers.
 parameters: Memory operand - the operand to get the value from
 return value: Returns register value, contant value, or memory value based on operand
 -----------------------------------------------------------*/
-Memory getValue(Memory operand)
+Memory getValue( Memory operand )
 {
 	int value;
-	switch (operand)
+	switch ( operand )
 	{
-	case AXREG:
-		return regis.AX;
-		break;
-	case BXREG:
-		return regis.BX;
-		break;
-	case CXREG:
-		return regis.CX;
-		break;
-	case DXREG:
-		return regis.DX;
-		break;
-	case CONSTANT:
-		value = memory[address];
-		address++;
-		return value;
-	case ADDRESS:
-		value = memory[address];
-		address++;
-		return memory[value];
+		case AXREG:
+			return regis.AX;
+			break;
+		case BXREG:
+			return regis.BX;
+			break;
+		case CXREG:
+			return regis.CX;
+			break;
+		case DXREG:
+			return regis.DX;
+			break;
+		case CONSTANT:
+			value = memory[ address ];
+			address++;
+			return value;
+		case ADDRESS:
+			value = memory[ address ];
+			address++;
+			return memory[ value ];
 	}
 	return -1; // error case
 }
@@ -518,30 +561,34 @@ Function to take in an operand and a value, and store the value in the correct r
 parameters: The numberical value of the operand, and the int value to store
 return value: None
 -----------------------------------------------------------*/
-void putValue(int operand, int value)
+void putValue( int operand, int value )
 {
-	if (operand == AXREG)
+	if ( operand == AXREG )
 	{
 		regis.AX = value;
 	}
-	else if (operand == BXREG)
+	else if ( operand == BXREG )
 	{
 		regis.BX = value;
 	}
-	else if (operand == CXREG) {
+	else if ( operand == CXREG )
+	{
 		regis.CX = value;
 	}
-	else if (operand == DXREG) {
+	else if ( operand == DXREG )
+	{
 		regis.DX = value;
 	}
-	else if (operand == ADDRESS) {
+	else if ( operand == ADDRESS )
+	{
 		int addr;
-		addr = memory[address];
+		addr = memory[ address ];
 		address++;
-		memory[addr] = value;
+		memory[ addr ] = value;
 	}
-	else {
-		printf("Error, invalid operand"); // error case
+	else
+	{
+		printf( "Error, invalid operand" ); // error case
 	}
 }
 
