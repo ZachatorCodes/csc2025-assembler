@@ -1,4 +1,4 @@
-Computer Architecture & Assemble Language Assembler Project
+# Computer Architecture & Assemble Language Assembler Project
 This GitHub repository contains the code for my Assembler Project. All parts are tested using a seperate ASM file, with one main ASM final as a final test.
 
 ## Part 1 / 2
