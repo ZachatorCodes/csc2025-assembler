@@ -1,15 +1,14 @@
-MOV AX 5
-MOV BX 10
+MOV AX [15]
+ADD AX [16]
 
-MOV [50] AX
-MOV [55] BX
+PUT
 
-ADD CX [50]
-ADD CX [55]
-
-ADD [50] [55]
-MOV [50] DX
-
-MOV CX [60]
-
+MOV [25] AX
 HALT
+
+
+
+
+
+100
+200
