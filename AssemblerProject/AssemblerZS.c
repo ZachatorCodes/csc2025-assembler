@@ -283,7 +283,44 @@ void runMachineCode( )
 		}
 
 		// Two Part Commands (Jumps)
+		else if ( fullCommand >= JE && fullCommand <= JMP )
+		{
+			Memory targetAddr = memory[ address ];
+			address++;
 
+			if ( fullCommand == JE && regis.flag == 0 )
+			{
+				address = targetAddr;
+			}
+			else if ( fullCommand == JNE && regis.flag != 0 )
+			{
+				address = targetAddr;
+			}
+			else if ( fullCommand == JB && regis.flag == -1 )
+			{
+				address = targetAddr;
+			}
+			else if ( fullCommand == JBE && regis.flag < 1 )
+			{
+				address = targetAddr;
+			}
+			else if ( fullCommand == JA && regis.flag == 1 )
+			{
+				address = targetAddr;
+			}
+			else if ( fullCommand == JAE && regis.flag > -1 )
+			{
+				address = targetAddr;
+			}
+			else if ( fullCommand == JMP )
+			{
+				address = targetAddr;
+			}
+			else
+			{
+				-1; // for error handling
+			}
+		}
 
 		// Three Part Commands
 		else if ( part1 == MOVREG )
