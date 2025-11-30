@@ -13,4 +13,9 @@ MOV BX [54]
 MOV CX [52]
 MOV DX [50]
 
+MOV [60] [50]
+MOV [62] [52]
+MOV [64] [54]
+MOV [66] [56]
+
 HALT
