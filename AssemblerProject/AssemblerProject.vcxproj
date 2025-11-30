@@ -126,7 +126,7 @@
     <ClCompile Include="AssemblerZS.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assembler1-2ZS.asm" />
+    <None Include="Assembler2ZS.asm" />
     <None Include="Assembler3ZS.asm" />
     <None Include="Assembler4ZS.asm" />
     <None Include="AssemblerZS.asm" />
