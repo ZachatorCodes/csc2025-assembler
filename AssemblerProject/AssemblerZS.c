@@ -216,7 +216,7 @@ void runMachineCode()
 		part2 = (fullCommand & mask2) >> 3;
 		part3 = fullCommand & mask3;
 		if (fullCommand == PUT) {
-			printf("\t\tAX is: %d\n", regis.AX);
+			printf("AX is: %d\n\n", regis.AX);
 		}
 		else if (part1 == MOVREG)
 		{
