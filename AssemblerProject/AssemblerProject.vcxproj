@@ -126,6 +126,7 @@
     <ClCompile Include="AssemblerZS.c" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assembler1And2ZS.asm" />
     <None Include="AssemblerZS.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
