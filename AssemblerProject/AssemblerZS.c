@@ -170,6 +170,45 @@ void convertToMachineCode( FILE* fin )
 		address++;
 		return;
 	}
+	// Two Part Commands
+	else if ( part1[ 0 ] == 'j' )
+	{
+		if ( part1[ 1 ] == 'e' )
+		{
+			machineCode = JE;
+		}
+		else if ( part1[ 1 ] == 'n' )
+		{
+			machineCode = JNE;
+		}
+		else if ( part1[ 1 ] == 'm' )
+		{
+			machineCode = JMP;
+		}
+		else if ( part1[ 1 ] == 'b' )
+		{
+			if ( strlen(part1) > 2)
+			{
+				machineCode = JBE;
+			}
+			else
+			{
+				machineCode = JB;
+			}
+		}
+		else if ( part1[ 1 ] == 'a' )
+		{
+			if ( strlen( part1 ) > 2 )
+			{
+				machineCode = JAE;
+			}
+			else
+			{
+				machineCode = JA;
+			}
+		}
+	}
+
 	// Three Part Commands
 	else if ( part1[ 0 ] == 'm' )  //move into a register
 	{
