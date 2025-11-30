@@ -26,10 +26,19 @@ char ASM_FILE_NAME[] = "AssemblerZS.asm"; // name of linked assembly file
 
 // commands
 #define HALT 5
+#define GET 6
+#define PUT 7
+#define JE 8
+#define JNE 9
+#define JB 10
+#define JBE 11
+#define JA 12
+#define JAE 13
+#define JMP 14
+#define CMP 96
+#define ADD 160
 #define MOVREG 192
 #define MOVMEM 224
-#define ADD 160
-#define PUT 7
 
 // boolean
 #define TRUE 1
