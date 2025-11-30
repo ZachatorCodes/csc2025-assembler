@@ -1,7 +1,17 @@
-// Name: Zach Schwartz
-// Project Title: Assembler Project Part 4
-// Date: 10/20/2025
-// Description: Code for up to part 4 of the assembler project.
+/*
+	Name: Zach Schwartz
+
+	Project Title: Assembler Project
+
+	Date (Last Updated): 11/30/2025
+
+	Description:
+		Code for the first 4 parts of the assembler project.
+		The compiler reads in assembly code from a file, and
+		can now handle moving values between memory and registers,
+		adding values from memory and registers, outputting,
+		halting, and printing a memory dump.
+*/
 
 #define _CRT_SECURE_NO_WARNINGS // allows the use of deprecated code
 
