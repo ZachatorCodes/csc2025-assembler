@@ -23,10 +23,13 @@
     <None Include="AssemblerZS.asm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assembler1And2ZS.asm">
+    <None Include="Assembler3ZS.asm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assembler3ZS.asm">
+    <None Include="Assembler1-2ZS.asm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assembler4ZS.asm">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
