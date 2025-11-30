@@ -131,6 +131,7 @@
     <None Include="Assembler4ZS.asm" />
     <None Include="Assembler5ZS.asm" />
     <None Include="Assembler6ZS.asm" />
+    <None Include="AssemblerJEZS.asm" />
     <None Include="AssemblerZS.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -38,5 +38,8 @@
     <None Include="Assembler6ZS.asm">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="AssemblerJEZS.asm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
