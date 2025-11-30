@@ -1,0 +1,15 @@
+MOV AX 5
+MOV BX 10
+
+MOV [50] AX
+MOV [55] BX
+
+ADD CX [50]
+ADD CX [55]
+
+ADD [50] [55]
+MOV [50] DX
+
+MOV CX [60]
+
+HALT
