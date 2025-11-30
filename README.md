@@ -11,3 +11,8 @@ Create code that can add two numbers (either constants or from the registers) an
 
 ## Part 4
 Create code that allows the storing of values (either constants or from the registers) into specific memory locations.
+
+## Part 5
+Make sure that values can be moved from register to memory and vice versa.
+Additionally, make sure that blank lines can be handled and that numbers can be read from the console.
+Make sure that adding works between both registers and memory values.
