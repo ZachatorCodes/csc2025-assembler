@@ -778,6 +778,15 @@ Memory getValue( Memory operand )
 			value = memory[ address ];
 			address++;
 			return memory[ value ];
+			break;
+		case BXADDR:
+			return memory[ regis.BX ];
+			break;
+		case BXPLUS:
+			value = memory[ address ];
+			address++;
+			return memory[ regis.BX + value ];
+			break;
 	}
 	return -1; // error case
 }
