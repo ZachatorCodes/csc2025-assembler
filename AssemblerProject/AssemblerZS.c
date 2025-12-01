@@ -373,6 +373,35 @@ void runMachineCode( )
 			}
 		}
 
+		else if ( fullCommand == FUN )
+		{
+			int funcStartAddr = memory[ address ];
+			int numParams = memory[ address + 1 ];
+			int returnAddr = address + numParams + 3; // +3 to skip function, location, and parameters
+			push( returnAddr );
+			push( regis.flag );
+			push( regis.DX );
+			push( regis.CX );
+			push( regis.BX );
+			push( regis.AX );
+			memory[ funcStartAddr - 1 ] = numParams;
+			address = funcStartAddr;
+		}
+
+		else if ( fullCommand == RET )
+		{
+			int returnValue = getValue( AXREG );
+			regis.AX = pop( );
+			regis.BX = pop( );
+			regis.CX = pop( );
+			regis.DX = pop( );
+			regis.flag = pop( );
+			int returnAddr = pop( );
+			memory[ returnAddr - 1 ] = returnValue;
+			address = returnAddr;
+
+		}
+
 		// Three Part Commands
 		else if ( part1 == MOVREG )
 		{
