@@ -313,6 +313,7 @@ void runMachineCode( )
 	Memory mask3 = 7;	  //000 00 111
 	Memory part1, part2, part3; //command, operand1, 
 	int value1, value2;   //the actual values in the registers or constants
+	regis.pointer = MAX - 1; // hardcodes stack to end of memory
 
 	address = 0;
 	Memory fullCommand = memory[ address ];
