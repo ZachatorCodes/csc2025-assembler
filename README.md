@@ -2,17 +2,47 @@
 This GitHub repository contains the code for my CSC2025 Assembler Project. All parts are tested using a seperate ASM file, with one main ASM final as a final test.
 
 ## Part 1 / 2
-Create code that will take in a line of ASM code and break it into the three parts.
-Additionally, write the C code that converts the ASM into binary and stores it into memory. It should be able to move a constant into a register and moves numbers from register to register.
-The halt command should also be working after this part.
+Create code that will take a line of ASM code and break it into the three parts. The command, and one or two operands. Then, write the C code that converts the ASM into binary and stores it into memory. It will move a constant into a register and moves numbers from register to register.
+
+Commands Added:
+* MOV register constant
+* MOV register register
+* HALT
 
 ## Part 3
-Create code that can add two numbers (either constants or from the registers) and can output the value of the AX register using the PUT command.
+Write the code that will add two numbers and output the result. The numbers can be either in registers or memory.
+
+Commands Added:
+* ADD register register
+* ADD register constant
+* PUT
 
 ## Part 4
-Create code that allows the storing of values (either constants or from the registers) into specific memory locations.
+Create code that can store the sum of two values into a memory location.
+
+Commands Added:
+* MOV address register
 
 ## Part 5
-Make sure that values can be moved from register to memory and vice versa.
-Additionally, make sure that blank lines can be handled and that numbers can be read from the console.
-Make sure that adding works between both registers and memory values.
+Write code that can access two values stored in memory locations, add them together, and place the result in a new memory location.
+
+Commands Added:
+* MOV register address
+* MOV address register
+* Blank Line Handling
+* Single Number Line Handling
+
+## Part 6
+Write code that outputs the larger of two numbers.
+
+Commands Added:
+* CMP register register
+* CMP register constant
+* CMP register address
+* JE / JNE / JB / JBE / JA / JAE / JMP
+
+## Part 7
+Write code that will add up to 10 user-inputed numbers using a loop.
+
+Commands Added:
+* GET
