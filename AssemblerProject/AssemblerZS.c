@@ -6,11 +6,13 @@
 	Date (Last Updated): 11/30/2025
 
 	Description:
-		Code for the first 4 parts of the assembler project.
+		Code for the first 7 parts of the assembler project.
 		The compiler reads in assembly code from a file, and
 		can now handle moving values between memory and registers,
 		adding values from memory and registers, outputting,
-		halting, and printing a memory dump.
+		halting, printing a memory dump, all of the jumps,
+		comparing values, and getting user inputed values
+		from the console.
 */
 
 #define _CRT_SECURE_NO_WARNINGS // allows the use of deprecated code
