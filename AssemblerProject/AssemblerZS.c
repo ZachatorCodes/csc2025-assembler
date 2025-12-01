@@ -319,10 +319,6 @@ void runMachineCode( )
 			{
 				address = targetAddr;
 			}
-			else
-			{
-				-1; // for error handling
-			}
 		}
 
 		// Three Part Commands
