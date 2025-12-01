@@ -8,6 +8,7 @@ ADD CX 1
 JMP [3]
 
 
+MOV [100] DX
 MOV AX DX
 PUT
 HALT
