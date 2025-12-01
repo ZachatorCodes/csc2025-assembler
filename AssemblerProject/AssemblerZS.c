@@ -188,18 +188,19 @@ void convertToMachineCode( FILE* fin )
 		address++;
 		return;
 	}
-	else if ( part1[0] == 'r')
+	else if ( part1[ 0 ] == 'r' )
 	{
 		machineCode = RET;
-		memory[address] = machineCode;
+		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if (part1[0] == 'f') {
+	else if ( part1[ 0 ] == 'f' )
+	{
 		machineCode = FUN;
-		memory[address] = machineCode;
+		memory[ address ] = machineCode;
 		address++;
-
+		return;
 	}
 
 	// Two Part Commands
