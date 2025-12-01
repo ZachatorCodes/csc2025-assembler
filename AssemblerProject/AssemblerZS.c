@@ -210,6 +210,11 @@ void convertToMachineCode( FILE* fin )
 				machineCode = JA;
 			}
 		}
+		memory[ address ] = machineCode;
+		address++;
+		memory[ address ] = convertToNumber( part2, 0 );
+		address++;
+		return;
 	}
 
 	// Three Part Commands
