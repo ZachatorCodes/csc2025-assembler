@@ -401,6 +401,14 @@ void runMachineCode( )
 				regis.flag = -1;
 			}
 		}
+		else if ( part1 == FUN )
+		{
+			 
+		}
+		else if ( part1 == RET )
+		{
+
+		}
 
 		fullCommand = memory[ address ];  //the next command
 		address++;
