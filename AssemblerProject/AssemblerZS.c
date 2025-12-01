@@ -26,7 +26,7 @@ char ASM_FILE_NAME[ ] = "AssemblerCommentsZS.asm"; // name of linked assembly fi
 
 #define MAX 150			// strlen of simulators memory can be changed
 #define COL 7			// number of columns for output
-#define LINE_SIZE 20	// For c-strings
+#define LINE_SIZE 50	// For c-strings
 
 // operand types, registers, and other
 #define AXREG 0
