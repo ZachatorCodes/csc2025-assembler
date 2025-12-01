@@ -146,7 +146,6 @@ void convertToMachineCode( FILE* fin )
 	fgets( line, LINE_SIZE, fin );		// Takes one line from the asm file
 	changeToLowerCase( line );
 
-	splitCommand( line, part1, part2, part3 );
 
 	// Empty Lines
 	if ( line[ 0 ] == '\n' || line[ 0 ] == '\0' ) // comment or blank line
@@ -203,8 +202,10 @@ void convertToMachineCode( FILE* fin )
 		return;
 	}
 
+	splitCommand( line, part1, part2, part3 );
+
 	// Two Part Commands
-	else if ( part1[ 0 ] == 'j' )
+	if ( part1[ 0 ] == 'j' )
 	{
 		if ( part1[ 1 ] == 'e' )
 		{
