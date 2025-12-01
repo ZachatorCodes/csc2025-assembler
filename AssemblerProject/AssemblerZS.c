@@ -777,6 +777,30 @@ void putValue( int operand, int value )
 	}
 }
 
+/********************   pop   ***********************
+Function to remove and return the most recently added value to the register variable
+
+parameters: None
+return value: The removed item / value
+-----------------------------------------------------------*/
+int pop( )
+{
+	regis.pointer++; // total depth
+	return memory[ regis.pointer ];
+}
+
+/********************   push   ***********************
+Function to add a value to the register variable
+
+parameters: The value to add
+return value: None
+-----------------------------------------------------------*/
+void push( int value )
+{
+	memory[ regis.pointer ] = value;
+	regis.pointer--; // total depth
+}
+
 // List Of Problems (Head Bangers) - Anything that takes more than a few minutes to figure out
 // 1. For assembler 4, when getting and moving code from memory the code compiling and the lines changing got me stuck
 // 2. Moving from memory to a different memory addres is not working at the moment
