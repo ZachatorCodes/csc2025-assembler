@@ -472,6 +472,7 @@ return value: none
 ---------------------------------------------------------------------------------*/
 void printMemoryDump( )
 {
+	printf( "\n" );
 	int numRows = MAX / COL + 1;	//number of rows that will print
 	int carryOver = MAX % COL;		//number of columns on the bottom row
 	int location;   //the current location being called
