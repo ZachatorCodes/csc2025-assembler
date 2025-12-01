@@ -161,6 +161,13 @@ void convertToMachineCode( FILE* fin )
 		address++;
 		return;
 	}
+
+	// Handling For Commented Line
+	else if ( line[ 0 ] == ';' )
+	{
+		return;
+	}
+
 	// One Part Commands
 	else if ( part1[ 0 ] == 'h' )  //halt
 	{
