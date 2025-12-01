@@ -152,7 +152,6 @@ void convertToMachineCode( FILE* fin )
 	if ( line[ 0 ] == '\n' || line[ 0 ] == '\0' ) // comment or blank line
 	{
 		address++;
-		printf( "BLANK LINE\n" );
 		return;
 	}
 	else if ( isdigit( line[ 0 ] ) || line[ 0 ] == '-' )
