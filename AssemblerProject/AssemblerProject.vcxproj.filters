@@ -65,5 +65,8 @@
     <None Include="AssemblerCommentsZS.asm">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="testASM.asm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
