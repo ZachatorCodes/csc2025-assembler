@@ -190,7 +190,7 @@ void convertToMachineCode( FILE* fin )
 		}
 		else if ( part1[ 1 ] == 'b' )
 		{
-			if ( strlen(part1) > 2)
+			if ( part1[2 ] == 'e' )
 			{
 				machineCode = JBE;
 			}
@@ -201,7 +201,7 @@ void convertToMachineCode( FILE* fin )
 		}
 		else if ( part1[ 1 ] == 'a' )
 		{
-			if ( strlen( part1 ) > 2 )
+			if ( part1[ 2 ] == 'e' )
 			{
 				machineCode = JAE;
 			}
