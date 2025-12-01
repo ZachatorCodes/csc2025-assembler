@@ -72,6 +72,7 @@ struct Registers
 	int CX;
 	int DX;
 	int flag;
+	int pointer;
 }regis;
 
 // global variables
