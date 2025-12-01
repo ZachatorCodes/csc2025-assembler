@@ -297,6 +297,13 @@ void runMachineCode( )
 			printf( "AX is: %d\n\n", regis.AX );
 		}
 
+		if ( fullCommand == GET )
+		{
+			printf( "\nEnter a number: " );
+			scanf( "%d", &value1 ); // pass by reference (scanf wants the reference, not the value)
+			putValue( AXREG, value1); // pass by value
+		}
+
 		// Two Part Commands (Jumps)
 		else if ( fullCommand >= JE && fullCommand <= JMP )
 		{
