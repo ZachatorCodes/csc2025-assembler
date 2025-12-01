@@ -33,8 +33,10 @@ char ASM_FILE_NAME[ ] = "Assembler7ZS.asm"; // name of linked assembly file
 #define BXREG 1
 #define CXREG 2
 #define DXREG 3
-#define CONSTANT 7
+#define BXADDR 4
+#define BXPLUS 5
 #define ADDRESS 6
+#define CONSTANT 7
 
 // commands
 #define RET 3
@@ -167,34 +169,34 @@ void convertToMachineCode( FILE* fin )
 	}
 
 	// One Part Commands
-	else if ( part1[ 0 ] == 'h' )  //halt
+	else if ( line[ 0 ] == 'h' )  //halt
 	{
 		memory[ address ] = HALT;
 		address++;
 		return;
 	}
-	else if ( part1[ 0 ] == 'p' )
+	else if ( line[ 0 ] == 'p' )
 	{
 		machineCode = PUT;
 		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if ( part1[ 0 ] == 'g' )
+	else if ( line[ 0 ] == 'g' )
 	{
 		machineCode = GET;
 		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if ( part1[ 0 ] == 'r' )
+	else if ( line[ 0 ] == 'r' )
 	{
 		machineCode = RET;
 		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if ( part1[ 0 ] == 'f' )
+	else if ( line[ 0 ] == 'f' )
 	{
 		machineCode = FUN;
 		memory[ address ] = machineCode;
@@ -301,7 +303,7 @@ return value: none
 void runMachineCode( )
 {
 	Memory mask1 = 224;   //111 00 000
-	Memory mask2 = 24;    //000 11 000
+	Memory mask2 = 24;    //000 11 000 
 	Memory mask3 = 7;	  //000 00 111
 	Memory part1, part2, part3; //command, operand1, 
 	int value1, value2;   //the actual values in the registers or constants
