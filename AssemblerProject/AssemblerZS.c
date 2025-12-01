@@ -491,6 +491,59 @@ void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] )
 	}
 }
 
+/********************   splitFunction   ***********************
+splits a function line of asm into multiple parts
+
+Takes in a function line of assembly code as a character array and splits it into multiple seperate arrays
+
+parameters: char line[] - the full line of assembly code
+
+return values: nothing
+-----------------------------------------------------------*/
+void splitFunction( char line[ LINE_SIZE ] )
+{
+	/*
+	* 1 - get fun, memory space, and number of parameters
+	* 2 - get number of parameters
+	* 3 - get parameters
+	* 4 - 
+	*/
+	Memory machineCode = 0; // initialize machineCode variable holder
+	int loopCounter = 0; // initialize loop counter
+	int index = 0;
+
+	machineCode = convertToNumber( line, 4 );
+	memory[ address ] = machineCode;
+	address++;
+	index = 4; // moves index to the memory location
+
+	while ( line[ index ] != ' ' )
+	{
+		index++;
+	}
+
+	int numParams = convertToNumber( line, index ); // auto skips space to get the number of parameters for the function
+
+	machineCode = numParams;
+	memory[ address ] = machineCode; // stores num of params in memory
+	address++;
+	index++;
+
+	while ( loopCounter != numParams ) // loop through all parameters
+	{
+		while ( line[ index ] != ' ' && line[ index ] != '\n' && line[ index ] != '\0' ) // get to right before next whitespace
+		{
+			index++;
+		}
+		index++; // skips whitespace
+		machineCode = convertToNumber( line, index );
+		memory[ address ] = machineCode;
+		address++;
+		loopCounter++;
+	}
+	return;
+}
+
 /*********************************************************************************
 /****************************   HELPER FUNCTIONS   *******************************
 /*********************************************************************************
