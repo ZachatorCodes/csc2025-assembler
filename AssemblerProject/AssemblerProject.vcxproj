@@ -136,6 +136,7 @@
     <None Include="AssemblerJBEZS.asm" />
     <None Include="AssemblerJBZS.asm" />
     <None Include="AssemblerJEZS.asm" />
+    <None Include="AssemblerJMPZS.asm" />
     <None Include="AssemblerJNEZS.asm" />
     <None Include="AssemblerZS.asm" />
   </ItemGroup>
