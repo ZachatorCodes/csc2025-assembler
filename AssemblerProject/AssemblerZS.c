@@ -22,7 +22,7 @@
 #include <string.h>
 #include <ctype.h>
 
-char ASM_FILE_NAME[ ] = "AssemblerJBEZS.asm"; // name of linked assembly file
+char ASM_FILE_NAME[ ] = "AssemblerJAZS.asm"; // name of linked assembly file
 
 #define MAX 150			// strlen of simulators memory can be changed
 #define COL 7			// number of columns for output
