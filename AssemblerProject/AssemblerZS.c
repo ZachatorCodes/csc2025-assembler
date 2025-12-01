@@ -202,7 +202,9 @@ void convertToMachineCode( FILE* fin )
 	{
 		machineCode = FUN;
 		memory[ address ] = machineCode;
-		address++;
+		address++; // move to next memory address
+		splitFunction( line );
+		address++; // leave one blank memory address for function return value
 		return;
 	}
 
