@@ -142,6 +142,7 @@
     <None Include="AssemblerJMPZS.asm" />
     <None Include="AssemblerJNEZS.asm" />
     <None Include="AssemblerZS.asm" />
+    <None Include="InClassLoop.asm" />
     <None Include="testASM.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
