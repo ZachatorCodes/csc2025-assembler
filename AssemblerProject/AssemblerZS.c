@@ -35,6 +35,8 @@ char ASM_FILE_NAME[ ] = "AssemblerJEZS.asm"; // name of linked assembly file
 #define ADDRESS 6
 
 // commands
+#define RET 3
+#define FUN 4
 #define HALT 5
 #define GET 6
 #define PUT 7
@@ -46,6 +48,7 @@ char ASM_FILE_NAME[ ] = "AssemblerJEZS.asm"; // name of linked assembly file
 #define JAE 13
 #define JMP 14
 #define CMP 96
+#define SUB 128
 #define ADD 160
 #define MOVREG 192
 #define MOVMEM 224
