@@ -272,7 +272,6 @@ void convertToMachineCode( FILE* fin )
 		address++;
 	}
 
-	printf( "\n" );
 	printMemoryDump( );
 }
 
@@ -305,7 +304,7 @@ void runMachineCode( )
 		// One Part Commands
 		if ( fullCommand == PUT )
 		{
-			printf( "AX is: %d\n\n", regis.AX );
+			printf( "\t\t\t\t  PUT - AX is: %d\n\n", regis.AX );
 		}
 
 		if ( fullCommand == GET )
@@ -463,7 +462,7 @@ void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] )
 			}
 		}
 		part3[ index2 ] = '\0'; // add the string stopper
-		printf( "\nCommand = %s %s %s", part1, part2, part3 );
+		printf( "Command = %s %s %s\n\n", part1, part2, part3 );
 	}
 }
 
@@ -480,7 +479,6 @@ return value: none
 ---------------------------------------------------------------------------------*/
 void printMemoryDump( )
 {
-	printf( "\n" );
 	int numRows = MAX / COL + 1;	//number of rows that will print
 	int carryOver = MAX % COL;		//number of columns on the bottom row
 	int location;   //the current location being called
@@ -502,7 +500,7 @@ void printMemoryDump( )
 	printf( "CX:%d\t", regis.CX );
 	printf( "DX:%d\n\n", regis.DX );
 	printf( "Address: %d\n", address );
-	printf( "Flag: %d\n\n", regis.flag );
+	printf( "\nFlag: %d\n\n", regis.flag );
 }
 
 
