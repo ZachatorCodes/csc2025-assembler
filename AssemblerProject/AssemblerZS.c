@@ -301,7 +301,7 @@ void runMachineCode( )
 		{
 			printf( "\nEnter a number: " );
 			scanf( "%d", &value1 ); // pass by reference (scanf wants the reference, not the value)
-			putValue( AXREG, value1); // pass by value
+			putValue( AXREG, value1 ); // pass by value
 		}
 
 		// Two Part Commands (Jumps)
