@@ -53,5 +53,8 @@
     <None Include="AssemblerJAZS.asm">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="AssemblerJAEZS.asm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
