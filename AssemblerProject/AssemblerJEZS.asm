@@ -1,0 +1,16 @@
+MOV AX 5
+MOV BX 5
+
+CMP AX BX
+JE [11]
+
+HALT
+
+PUT
+
+MOV AX 6
+CMP AX BX
+JE [9]
+
+PUT
+HALT
