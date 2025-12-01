@@ -189,6 +189,7 @@ void convertToMachineCode( FILE* fin )
 		address++;
 		return;
 	}
+
 	// Two Part Commands
 	else if ( part1[ 0 ] == 'j' )
 	{
