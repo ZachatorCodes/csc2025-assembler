@@ -682,11 +682,15 @@ int whichOperand( char operand[ ] )
 	}
 	else if ( letter == '[' )
 	{
-		return ADDRESS;
-	}
-	else if ( isdigit( letter ) )
+		if ( operand[ 1 ] == 'b' && operand[ 2 ] == 'x' )
 	{
-		return CONSTANT;
+			if ( operand[ 3 ] == '+' )
+			{
+				return BXPLUS;
+	}
+			return BXADDR;
+		}
+		return ADDRESS;
 	}
 	return -1;  //something went wrong if -1 is returned
 }
