@@ -676,6 +676,10 @@ int whichOperand( char operand[ ] )
 	{
 		return DXREG;
 	}
+	else if ( isdigit( letter ) )
+	{
+		return CONSTANT;
+	}
 	else if ( letter == '[' )
 	{
 		return ADDRESS;
