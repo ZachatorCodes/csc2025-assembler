@@ -773,6 +773,7 @@ Memory getValue( Memory operand )
 			value = memory[ address ];
 			address++;
 			return value;
+			break;
 		case ADDRESS:
 			value = memory[ address ];
 			address++;
