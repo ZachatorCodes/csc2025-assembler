@@ -46,3 +46,14 @@ Write code that will add up to 10 user-inputed numbers using a loop.
 
 Commands Added:
 * GET
+
+## Part 8
+Write the code so that the assembler can handle functions, parameters, and return values.
+
+Commands Added:
+* FUN
+* RET
+* command register [BX]
+* MOV [BX] register
+* command register [BX+###]
+* MOV [BX+###] register
