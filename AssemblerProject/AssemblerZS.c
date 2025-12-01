@@ -206,7 +206,7 @@ void convertToMachineCode( FILE* fin )
 		return;
 	}
 
-	splitCommand( line, part1, part2, part3 );
+	splitCommand( line, part1, part2, part3 ); // split larger, non-function commands
 
 	// Two Part Commands
 	if ( part1[ 0 ] == 'j' )
