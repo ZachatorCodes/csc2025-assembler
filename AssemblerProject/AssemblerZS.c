@@ -26,7 +26,7 @@ char ASM_FILE_NAME[ ] = "Assembler7ZS.asm"; // name of linked assembly file
 
 #define MAX 150			// strlen of simulators memory can be changed
 #define COL 7			// number of columns for output
-#define LINE_SIZE 50	// For c-strings
+#define LINE_SIZE 100	// For c-strings
 
 // operand types, registers, and other
 #define AXREG 0
