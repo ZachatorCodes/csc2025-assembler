@@ -1,0 +1,15 @@
+MOV AX 10
+MOV BX 20
+
+CMP AX BX
+JB [11]
+
+HALT
+
+PUT
+
+CMP BX AX
+JB [9]
+
+PUT
+HALT
