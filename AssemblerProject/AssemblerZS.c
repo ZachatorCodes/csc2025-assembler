@@ -83,6 +83,7 @@ Memory address;              // global variable the current address in the virtu
 // function prototypes
 void runMachineCode( ); // executes the machine code
 void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] ); // splits line of asm into it's three parts
+void splitFunction( char line[ LINE_SIZE ] ); // splits function specific line of asm into it's nessecary parts
 void convertToMachineCode( FILE* fin ); // converts a single line of ASM to machine code
 void assembler( ); // converts the entire ASM file and stores it in memory
 void printMemoryDump( ); // prints memory with commands represented as integes
