@@ -249,6 +249,7 @@ void convertToMachineCode( FILE* fin )
 		machineCode = CMP;
 	}
 
+	// Ask Professor About This One
 	operand3 = whichOperand( part3 );
 	machineCode = machineCode | ( whichOperand( part2 ) << 3 ); // bitshifts 3 to the left
 	machineCode = machineCode | operand3;
