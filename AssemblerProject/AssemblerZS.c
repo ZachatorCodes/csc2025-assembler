@@ -87,6 +87,8 @@ void splitFunction( char line[ LINE_SIZE ] ); // splits function specific line o
 void convertToMachineCode( FILE* fin ); // converts a single line of ASM to machine code
 void assembler( ); // converts the entire ASM file and stores it in memory
 void printMemoryDump( ); // prints memory with commands represented as integes
+int pop( );
+void push( int value );
 
 // helper functions prototypes 
 int convertToNumber( char line[ ], int start ); // converts a sub-string to an int
