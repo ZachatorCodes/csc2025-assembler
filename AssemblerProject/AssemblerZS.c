@@ -190,7 +190,7 @@ void convertToMachineCode( FILE* fin )
 		}
 		else if ( part1[ 1 ] == 'b' )
 		{
-			if ( part1[2 ] == 'e' )
+			if ( part1[ 2 ] == 'e' )
 			{
 				machineCode = JBE;
 			}
