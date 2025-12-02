@@ -57,3 +57,9 @@ Commands Added:
 * MOV [BX] register
 * command register [BX+###]
 * MOV [BX+###] register
+
+## Part 9
+Modify the ASM file for part 8 to pass the return value by reference to a memory location, instead of directly returning it to the original memory location.
+
+Commands Added:
+* *No new commands implemented*
