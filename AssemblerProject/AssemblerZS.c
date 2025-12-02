@@ -863,3 +863,4 @@ void push( int value )
 // 1. For assembler 4, when getting and moving code from memory the code compiling and the lines changing got me stuck
 // 2. Moving from memory to a different memory addres is not working at the moment
 // 3. Oh my god functions kicked my butt
+// 4. I forgot to add a conditional to catch BXPLUS so the bounds were not working for Assembler 8 code
