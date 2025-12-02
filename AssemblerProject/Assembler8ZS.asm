@@ -1,0 +1,9 @@
+FUN [15] 3 5 10 15
+MOV AX [6]
+PUT
+HALT
+
+
+
+2
+MOV BX [14]
