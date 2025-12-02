@@ -858,7 +858,7 @@ return value: None
 void push( int value )
 {
 	memory[ regis.pointer ] = value;
-	regis.pointer--; // total depth
+	regis.pointer--; // go backwards because stack is stored at end of memory location
 }
 
 // List Of Problems (Head Bangers) - Anything that takes more than a few minutes to figure out
