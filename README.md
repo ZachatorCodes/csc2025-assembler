@@ -61,4 +61,4 @@ Commands Added:
 ## Part 9
 Modify the ASM file for part 8 to pass the return value by reference to a memory location, instead of directly returning it to the original memory location.
 
-*No new commands implemented*
+*No new commands implemented.*
