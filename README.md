@@ -1,5 +1,5 @@
 # Computer Architecture & Assemble Language Assembler Project
-This GitHub repository contains the code for my CSC2025 Assembler Project. All parts are tested using a seperate ASM file, with one main ASM final as a final test.
+This GitHub repository contains the code for my CSC2025 Assembler Project. The goal of this project is to write an assembler / compiler in C to convert and subsequently run code written in assembly language. All parts are tested using a seperate ASM file, with one main ASM final as a final test.
 
 ## Part 1 / 2
 Create code that will take a line of ASM code and break it into the three parts. The command, and one or two operands. Then, write the C code that converts the ASM into binary and stores it into memory. It will move a constant into a register and moves numbers from register to register.
