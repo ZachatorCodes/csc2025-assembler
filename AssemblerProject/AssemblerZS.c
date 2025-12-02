@@ -385,7 +385,7 @@ void runMachineCode( )
 			push( regis.CX );
 			push( regis.BX );
 			push( regis.AX );
-			memory[ funcStartAddr - 1 ] = numParams;
+			memory[ funcStartAddr - 1 ] = paramAddr;
 			address = funcStartAddr;
 		}
 
