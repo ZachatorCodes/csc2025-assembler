@@ -440,7 +440,7 @@ void runMachineCode( )
 			{
 				regis.flag = -1;
 			}
-		} 
+		}
 
 		fullCommand = memory[ address ];  //the next command
 		address++;
@@ -534,7 +534,7 @@ void splitFunction( char line[ LINE_SIZE ] )
 	* 1 - get fun, memory space, and number of parameters
 	* 2 - get number of parameters
 	* 3 - get parameters
-	* 4 - 
+	* 4 -
 	*/
 	Memory machineCode = 0; // initialize machineCode variable holder
 	int loopCounter = 0; // initialize loop counter
@@ -814,7 +814,7 @@ void putValue( int operand, int value )
 		address++;
 		memory[ addr ] = value;
 	}
-	else if (operand == BXADDR )
+	else if ( operand == BXADDR )
 	{
 		memory[ regis.BX ] = value;
 	}
