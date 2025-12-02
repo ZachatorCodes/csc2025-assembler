@@ -6,7 +6,7 @@ MOV DX CX
 
 ADD CX 1
 CMP CX 10
-JAE [23]
+JA [23]
 
 FUN [29] 2 30 50
 ADD DX [17]
