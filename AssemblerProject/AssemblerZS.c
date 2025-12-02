@@ -821,6 +821,16 @@ void putValue( int operand, int value )
 		address++;
 		memory[ addr ] = value;
 	}
+	else if (operand == BXADDR )
+	{
+		memory[ regis.BX ] = value;
+	}
+	else if ( operand == BXPLUS )
+	{
+		int distance = memory[ address ];
+		address++;
+		memory[ regis.BX + distance ] = value;
+	}
 	else
 	{
 		printf( "Error, invalid operand" ); // error case
