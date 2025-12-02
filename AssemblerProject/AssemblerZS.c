@@ -376,7 +376,8 @@ void runMachineCode( )
 		else if ( fullCommand == FUN )
 		{
 			int funcStartAddr = memory[ address ];
-			int numParams = memory[ address + 1 ];
+			int paramAddr = address + 1;
+			int numParams = memory[ paramAddr ];
 			int returnAddr = address + numParams + 3; // +3 to skip function, location, and parameters
 			push( returnAddr );
 			push( regis.flag );
