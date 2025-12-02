@@ -439,7 +439,7 @@ void runMachineCode( )
 			{
 				regis.flag = -1;
 			}
-		}
+		} 
 
 		fullCommand = memory[ address ];  //the next command
 		address++;
@@ -675,11 +675,11 @@ int whichOperand( char operand[ ] )
 	else if ( letter == '[' )
 	{
 		if ( operand[ 1 ] == 'b' && operand[ 2 ] == 'x' )
-	{
+		{
 			if ( operand[ 3 ] == '+' )
 			{
 				return BXPLUS;
-	}
+			}
 			return BXADDR;
 		}
 		return ADDRESS;
