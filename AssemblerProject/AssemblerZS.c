@@ -3,16 +3,17 @@
 
 	Project Title: Assembler Project
 
-	Date (Last Updated): 11/30/2025
+	Date (Last Updated): 12/01/2025
 
 	Description:
-		Code for the first 7 parts of the assembler project.
-		The compiler reads in assembly code from a file, and
-		can now handle moving values between memory and registers,
-		adding values from memory and registers, outputting,
-		halting, printing a memory dump, all of the jumps,
-		comparing values, and getting user inputed values
-		from the console.
+		Code for the first 9 parts of the assembler project.
+		The compiler reads in assembly code from a file, converts it, and runs it.
+		This compiler can handle moving values between memory and registers,
+		adding values from memory and registers,
+		outputting, halting, assembler jumps,
+		comparing values, getting user inputed values,
+		getting values from memory based on the numerical value of a register (plus X numbers),
+		and more!
 */
 
 #define _CRT_SECURE_NO_WARNINGS // allows the use of deprecated code
