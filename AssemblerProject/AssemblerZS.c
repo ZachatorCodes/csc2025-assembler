@@ -293,6 +293,11 @@ void convertToMachineCode( FILE* fin )
 		memory[ address ] = convertToNumber( part3, 0 ); // puts the constant value into the next memory address
 		address++;
 	}
+	else if ( operand3 == BXPLUS )
+	{
+		memory[ address ] = convertToNumber( part3, 4 );
+		address++;
+	}
 
 	printMemoryDump( );
 }
