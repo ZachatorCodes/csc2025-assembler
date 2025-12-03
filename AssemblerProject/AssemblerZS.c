@@ -3,16 +3,17 @@
 
 	Project Title: Assembler Project
 
-	Date (Last Updated): 11/30/2025
+	Date (Last Updated): 12/01/2025
 
 	Description:
-		Code for the first 7 parts of the assembler project.
-		The compiler reads in assembly code from a file, and
-		can now handle moving values between memory and registers,
-		adding values from memory and registers, outputting,
-		halting, printing a memory dump, all of the jumps,
-		comparing values, and getting user inputed values
-		from the console.
+		Code for the first 9 parts of the assembler project.
+		The compiler reads in assembly code from a file, converts it, and runs it.
+		This compiler can handle moving values between memory and registers,
+		adding values from memory and registers,
+		outputting, halting, assembler jumps,
+		comparing values, getting user inputed values,
+		getting values from memory based on the numerical value of a register (plus X numbers),
+		and more!
 */
 
 #define _CRT_SECURE_NO_WARNINGS // allows the use of deprecated code
@@ -22,19 +23,21 @@
 #include <string.h>
 #include <ctype.h>
 
-char ASM_FILE_NAME[ ] = "Assembler7ZS.asm"; // name of linked assembly file
+char ASM_FILE_NAME[ ] = "Assembler9ZS.asm"; // name of linked assembly file
 
 #define MAX 150			// strlen of simulators memory can be changed
 #define COL 7			// number of columns for output
-#define LINE_SIZE 50	// For c-strings
+#define LINE_SIZE 100	// For c-strings
 
 // operand types, registers, and other
 #define AXREG 0
 #define BXREG 1
 #define CXREG 2
 #define DXREG 3
-#define CONSTANT 7
+#define BXADDR 4
+#define BXPLUS 5
 #define ADDRESS 6
+#define CONSTANT 7
 
 // commands
 #define RET 3
@@ -70,6 +73,7 @@ struct Registers
 	int CX;
 	int DX;
 	int flag;
+	int pointer;
 }regis;
 
 // global variables
@@ -80,9 +84,12 @@ Memory address;              // global variable the current address in the virtu
 // function prototypes
 void runMachineCode( ); // executes the machine code
 void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] ); // splits line of asm into it's three parts
+void splitFunction( char line[ LINE_SIZE ] ); // splits function specific line of asm into it's nessecary parts
 void convertToMachineCode( FILE* fin ); // converts a single line of ASM to machine code
 void assembler( ); // converts the entire ASM file and stores it in memory
 void printMemoryDump( ); // prints memory with commands represented as integes
+int pop( );
+void push( int value );
 
 // helper functions prototypes 
 int convertToNumber( char line[ ], int start ); // converts a sub-string to an int
@@ -146,7 +153,6 @@ void convertToMachineCode( FILE* fin )
 	fgets( line, LINE_SIZE, fin );		// Takes one line from the asm file
 	changeToLowerCase( line );
 
-	splitCommand( line, part1, part2, part3 );
 
 	// Empty Lines
 	if ( line[ 0 ] == '\n' || line[ 0 ] == '\0' ) // comment or blank line
@@ -168,42 +174,47 @@ void convertToMachineCode( FILE* fin )
 	}
 
 	// One Part Commands
-	else if ( part1[ 0 ] == 'h' )  //halt
+	else if ( line[ 0 ] == 'h' )  //halt
 	{
 		memory[ address ] = HALT;
 		address++;
 		return;
 	}
-	else if ( part1[ 0 ] == 'p' )
+	else if ( line[ 0 ] == 'p' )
 	{
 		machineCode = PUT;
 		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if ( part1[ 0 ] == 'g' )
+	else if ( line[ 0 ] == 'g' )
 	{
 		machineCode = GET;
 		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if ( part1[0] == 'r')
+	else if ( line[ 0 ] == 'r' )
 	{
 		machineCode = RET;
-		memory[address] = machineCode;
+		memory[ address ] = machineCode;
 		address++;
 		return;
 	}
-	else if (part1[0] == 'f') {
+	else if ( line[ 0 ] == 'f' )
+	{
 		machineCode = FUN;
-		memory[address] = machineCode;
-		address++;
-
+		memory[ address ] = machineCode;
+		address++; // move to next memory address
+		splitFunction( line );
+		address++; // leave one blank memory address for function return value
+		return;
 	}
 
+	splitCommand( line, part1, part2, part3 ); // split larger, non-function commands
+
 	// Two Part Commands
-	else if ( part1[ 0 ] == 'j' )
+	if ( part1[ 0 ] == 'j' )
 	{
 		if ( part1[ 1 ] == 'e' )
 		{
@@ -283,6 +294,11 @@ void convertToMachineCode( FILE* fin )
 		memory[ address ] = convertToNumber( part3, 0 ); // puts the constant value into the next memory address
 		address++;
 	}
+	else if ( operand3 == BXPLUS )
+	{
+		memory[ address ] = convertToNumber( part3, 4 );
+		address++;
+	}
 
 	printMemoryDump( );
 }
@@ -299,10 +315,11 @@ return value: none
 void runMachineCode( )
 {
 	Memory mask1 = 224;   //111 00 000
-	Memory mask2 = 24;    //000 11 000
+	Memory mask2 = 24;    //000 11 000 
 	Memory mask3 = 7;	  //000 00 111
 	Memory part1, part2, part3; //command, operand1, 
 	int value1, value2;   //the actual values in the registers or constants
+	regis.pointer = MAX - 1; // hardcodes stack to end of memory
 
 	address = 0;
 	Memory fullCommand = memory[ address ];
@@ -360,6 +377,36 @@ void runMachineCode( )
 			{
 				address = targetAddr;
 			}
+		}
+
+		else if ( fullCommand == FUN )
+		{
+			int funcStartAddr = memory[ address ];
+			int paramAddr = address + 1;
+			int numParams = memory[ paramAddr ];
+			int returnAddr = address + numParams + 3; // +3 to skip function, location, and parameters
+			push( returnAddr );
+			push( regis.flag );
+			push( regis.DX );
+			push( regis.CX );
+			push( regis.BX );
+			push( regis.AX );
+			memory[ funcStartAddr - 1 ] = paramAddr;
+			address = funcStartAddr;
+		}
+
+		else if ( fullCommand == RET )
+		{
+			int returnValue = getValue( AXREG );
+			regis.AX = pop( );
+			regis.BX = pop( );
+			regis.CX = pop( );
+			regis.DX = pop( );
+			regis.flag = pop( );
+			int returnAddr = pop( );
+			memory[ returnAddr - 1 ] = returnValue;
+			address = returnAddr;
+
 		}
 
 		// Three Part Commands
@@ -478,6 +525,59 @@ void splitCommand( char line[ ], char part1[ ], char part2[ ], char part3[ ] )
 	}
 }
 
+/********************   splitFunction   ***********************
+splits a function line of asm into multiple parts
+
+Takes in a function line of assembly code as a character array and splits it into multiple seperate arrays
+
+parameters: char line[] - the full line of assembly code
+
+return values: nothing
+-----------------------------------------------------------*/
+void splitFunction( char line[ LINE_SIZE ] )
+{
+	/*
+	* 1 - get fun, memory space, and number of parameters
+	* 2 - get number of parameters
+	* 3 - get parameters
+	* 4 -
+	*/
+	Memory machineCode = 0; // initialize machineCode variable holder
+	int loopCounter = 0; // initialize loop counter
+	int index = 0;
+
+	machineCode = convertToNumber( line, 4 );
+	memory[ address ] = machineCode;
+	address++;
+	index = 4; // moves index to the memory location
+
+	while ( line[ index ] != ' ' )
+	{
+		index++;
+	}
+
+	int numParams = convertToNumber( line, index ); // auto skips space to get the number of parameters for the function
+
+	machineCode = numParams;
+	memory[ address ] = machineCode; // stores num of params in memory
+	address++;
+	index++;
+
+	while ( loopCounter != numParams ) // loop through all parameters
+	{
+		while ( line[ index ] != ' ' && line[ index ] != '\n' && line[ index ] != '\0' ) // get to right before next whitespace
+		{
+			index++;
+		}
+		index++; // skips whitespace
+		machineCode = convertToNumber( line, index );
+		memory[ address ] = machineCode;
+		address++;
+		loopCounter++;
+	}
+	return;
+}
+
 /*********************************************************************************
 /****************************   HELPER FUNCTIONS   *******************************
 /*********************************************************************************
@@ -575,13 +675,21 @@ int whichOperand( char operand[ ] )
 	{
 		return DXREG;
 	}
-	else if ( letter == '[' )
-	{
-		return ADDRESS;
-	}
 	else if ( isdigit( letter ) )
 	{
 		return CONSTANT;
+	}
+	else if ( letter == '[' )
+	{
+		if ( operand[ 1 ] == 'b' && operand[ 2 ] == 'x' )
+		{
+			if ( operand[ 3 ] == '+' )
+			{
+				return BXPLUS;
+			}
+			return BXADDR;
+		}
+		return ADDRESS;
 	}
 	return -1;  //something went wrong if -1 is returned
 }
@@ -664,10 +772,20 @@ Memory getValue( Memory operand )
 			value = memory[ address ];
 			address++;
 			return value;
+			break;
 		case ADDRESS:
 			value = memory[ address ];
 			address++;
 			return memory[ value ];
+			break;
+		case BXADDR:
+			return memory[ regis.BX ];
+			break;
+		case BXPLUS:
+			value = memory[ address ];
+			address++;
+			return memory[ regis.BX + value ];
+			break;
 	}
 	return -1; // error case
 }
@@ -702,12 +820,48 @@ void putValue( int operand, int value )
 		address++;
 		memory[ addr ] = value;
 	}
+	else if ( operand == BXADDR )
+	{
+		memory[ regis.BX ] = value;
+	}
+	else if ( operand == BXPLUS )
+	{
+		int distance = memory[ address ];
+		address++;
+		memory[ regis.BX + distance ] = value;
+	}
 	else
 	{
 		printf( "Error, invalid operand" ); // error case
 	}
 }
 
+/********************   pop   ***********************
+Function to remove and return the most recently added value to the register variable
+
+parameters: None
+return value: The removed item / value
+-----------------------------------------------------------*/
+int pop( )
+{
+	regis.pointer++; // total depth
+	return memory[ regis.pointer ];
+}
+
+/********************   push   ***********************
+Function to add a value to the register variable
+
+parameters: The value to add
+return value: None
+-----------------------------------------------------------*/
+void push( int value )
+{
+	memory[ regis.pointer ] = value;
+	regis.pointer--; // go backwards because stack is stored at end of memory location
+}
+
 // List Of Problems (Head Bangers) - Anything that takes more than a few minutes to figure out
 // 1. For assembler 4, when getting and moving code from memory the code compiling and the lines changing got me stuck
 // 2. Moving from memory to a different memory addres is not working at the moment
+// 3. Oh my god functions kicked my butt
+// 4. I forgot to add a conditional to catch BXPLUS so the bounds were not working for Assembler 8 code

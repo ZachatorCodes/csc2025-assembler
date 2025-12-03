@@ -133,6 +133,7 @@
     <None Include="Assembler6ZS.asm" />
     <None Include="Assembler7ZS.asm" />
     <None Include="Assembler8ZS.asm" />
+    <None Include="Assembler9ZS.asm" />
     <None Include="AssemblerCommentsZS.asm" />
     <None Include="AssemblerJAEZS.asm" />
     <None Include="AssemblerJAZS.asm" />
@@ -142,6 +143,7 @@
     <None Include="AssemblerJMPZS.asm" />
     <None Include="AssemblerJNEZS.asm" />
     <None Include="AssemblerZS.asm" />
+    <None Include="InClassLoop.asm" />
     <None Include="testASM.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

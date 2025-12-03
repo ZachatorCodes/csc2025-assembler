@@ -1,0 +1,27 @@
+; Initialize CX as counter
+MOV CX 0
+
+; Initialize DX as sum
+MOV DX CX
+
+ADD CX 1
+CMP CX 10
+JA [23]
+
+FUN [29] 2 30 50
+ADD DX [120]
+JMP [5]
+
+MOV [100] DX
+MOV AX DX
+PUT
+HALT
+
+MOV BX [28]
+GET
+CMP AX [BX+1]
+JBE [31]
+CMP AX [BX+2]
+JAE [31]
+MOV [120] AX
+RET
