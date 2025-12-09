@@ -80,5 +80,8 @@
     <None Include="FinalExamAssemblerZS.asm">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="finalZS.asm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
