@@ -1,0 +1,131 @@
+MOV AX 0
+MOV BX AX
+MOV CX AX
+MOV DX AX
+
+
+
+CMP CX 20
+JAE [29]
+ADD CX 1
+FUN [33] 0
+FUN [68] 1 [17]
+FUN [84] 0
+JMP [8]
+HALT
+
+
+
+MOV DX 1
+GET
+CMP AX 1
+JB [35]
+CMP AX 6
+JA [35]
+CMP DX 1
+JNE [53]
+MOV BX AX
+ADD DX 1
+JMP [35]
+CMP DX 2
+JNE [62]
+MOV CX AX
+ADD DX 1
+JMP [35]
+ADD AX BX
+ADD AX CX
+RET
+
+
+
+MOV BX [67]
+ADD BX 1
+MOV BX [BX]
+MOV BX [BX]
+ADD BX 150
+MOV AX [BX]
+ADD AX 1
+MOV [BX] AX
+RET
+
+
+
+MOV CX 0
+CMP CX 18
+JAE [99]
+ADD CX 1
+MOV BX CX
+ADD BX 150
+MOV AX [BX]
+PUT
+JMP [86]
+RET
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
