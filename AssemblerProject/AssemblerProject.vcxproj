@@ -143,6 +143,7 @@
     <None Include="AssemblerJMPZS.asm" />
     <None Include="AssemblerJNEZS.asm" />
     <None Include="AssemblerZS.asm" />
+    <None Include="FinalExamAssemblerZS.asm" />
     <None Include="InClassLoop.asm" />
     <None Include="testASM.asm" />
   </ItemGroup>
