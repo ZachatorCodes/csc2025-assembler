@@ -37,7 +37,3 @@ JMP [38]
 ADD AX BX
 ADD AX CX
 RET
-
-
-
-MOV BX []
