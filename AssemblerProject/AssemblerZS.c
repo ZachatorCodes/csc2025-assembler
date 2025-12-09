@@ -102,6 +102,7 @@ Memory getValue( Memory operand ); // gets a value from the correct register bas
 int main( )
 {
 	assembler( );
+	printMemoryDump( );
 	runMachineCode( );
 	printMemoryDump( ); // displays memory with final values
 	printf( "\n" );
