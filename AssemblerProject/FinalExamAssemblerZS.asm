@@ -11,8 +11,8 @@ ADD CX 1
 FUN [36] 0
 MOV AX [17]
 PUT
-FUN [] 1 AX
-FUN [] 0
+FUN [71] 1 [17]
+FUN [87] 0
 JMP [8]
 HALT
 
@@ -37,3 +37,94 @@ JMP [38]
 ADD AX BX
 ADD AX CX
 RET
+
+
+
+MOV BX [70]
+ADD BX 1
+MOV BX [BX]
+MOV BX [BX]
+ADD BX 150
+MOV AX [BX]
+ADD AX 1
+MOV [BX] AX
+RET
+
+
+
+MOV CX 0
+CMP CX 18
+JAE [102]
+ADD CX 1
+MOV BX CX
+ADD BX 150
+MOV AX [BX]
+PUT
+JMP [89]
+RET
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1
+2
+3
+4
+5
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
